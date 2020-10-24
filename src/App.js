@@ -1,24 +1,41 @@
-import logo from './logo.svg';
+import React from 'react';
+import styled from 'styled-components';
 import './App.css';
 
+const AppCard = styled.div`
+  text-align: center;
+`
+const AppCardHeader = styled.div`
+  background-color: var(--color-primary-light);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 3vmin);
+  color: var(--font-color-primary);
+`
+const AppCardButton = styled.button`
+  background-color: var(--color-secondary-dark);
+  min-height: 8vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: var(--font-color-secondary);
+  border-radius: 2vh;
+`
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AppCard>
+      <AppCardHeader>
+        <h1>Questions And Answers Game</h1>
+      <AppCardButton>
+        Start Playing
+      </AppCardButton>
+      </AppCardHeader>
+    </AppCard>
   );
 }
 

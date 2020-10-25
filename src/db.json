@@ -1,0 +1,46 @@
+[
+  {
+    "id": 1,
+    "question": "Yuca is a type of what?",
+    "answer": {
+      "Flower": false,
+      "Fruit": false,
+      "Stone": true,
+      "Vegetable": false
+    }
+  },
+
+  {
+    "id": 2,
+    "question": "Which country is famous because of its tango dance?",
+    "answer": {
+      "Uruguai": false,
+      "Paraguai": false,
+      "Espanha": false,
+      "Argentina": true
+    }
+  },
+
+  {
+    "id": 3,
+    "question": "Which of these action movie stars is Belgian?",
+    "answer": {
+      "Sylvester Stallone": false,
+      "Arnold Schwarzenegger": false,
+      "Jean Claude Van Damme": true,
+      "Steven Seagal": false
+    }
+  },
+
+  {
+    "id": 4,
+    "question": "Which holiday kids dress up in scary costumes?",
+    "answer": {
+      "Christmas": false,
+      "New Years": false,
+      "Halloween": true,
+      "Easter": false
+    }
+  }
+
+]

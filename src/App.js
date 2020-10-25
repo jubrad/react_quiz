@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { BrowserRouter, Route } from 'react-router-dom';
 import GameStart from './views/GameStart';
+import Question from './views/Question';
 
 const AppCard = styled.div`
   text-align: center;
@@ -25,6 +26,7 @@ function App() {
 
       <BrowserRouter>
           <Route path="/" exact component={GameStart} />
+          <Route path="/question" component={Question} />
       </BrowserRouter>
     </AppCard>
   );

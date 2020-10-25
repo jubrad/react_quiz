@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import PlayerModal from '../components/PlayerModal';
 
 const GameStartCard = styled.main`
@@ -85,7 +86,7 @@ class GameStart extends Component {
     e.preventDefault()
     localStorage.setItem('playerName', this.state.playerName)
     this.hideModal()
-    this.props.history.push('./Question.js')
+    this.props.history.push('/question.js')
   }
 
   handleChange = (e) => {
@@ -110,9 +111,11 @@ class GameStart extends Component {
               <ModalPlayerInput type="text" name="playerName" placeholder="John Doe" onChange={this.handleChange} value={this.state.playerName}/>
             </label>
             <br/>
-            <PlayerModalButton type="submit">Submit and start playing!</PlayerModalButton>
+            <Link to='/question'>
+              <PlayerModalButton type="submit">Submit and start playing!</PlayerModalButton>
+            </Link>
           </PlayerModalForm>
-          </PlayerModal>
+        </PlayerModal>
 
       </GameStartCard>
     )

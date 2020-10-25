@@ -7,27 +7,24 @@ const ModalCard = styled.div`
   left: 0;
   width:100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.6);
+  background: var(--color-secondary-dark);
 
   ${({show}) => show ? "display: block" : "display: none"}
 `;
 
 const ModalCardMain = styled.section`
   position:fixed;
+  background: var(--color-primary-light);
   width: 50vw;
   top:50%;
   left:50%;
   transform: translate(-50%,-50%);
-  padding: 1vw;
-  border-radius: 10px;
-  background-color: var(--color-primary-light);
-  min-height: 10vh;
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: var(--font-color-secondary);
+  align-items: center;
+  padding: 1vw;
+  border: 5px solid black;
+  border-radius: 2vh;
 `;
 
 const PlayerModal = ({ show, children }) => {

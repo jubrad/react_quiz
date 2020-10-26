@@ -5,8 +5,8 @@
     "answer": {
       "Flower": false,
       "Fruit": false,
-      "Stone": true,
-      "Vegetable": false
+      "Stone": false,
+      "Vegetable": true
     }
   },
 

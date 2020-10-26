@@ -14,7 +14,7 @@ const ModalCard = styled.div`
 
 const ModalCardMain = styled.section`
   position:fixed;
-  background: var(--color-primary-light);
+  background: var(--color-secondary);
   width: 50vw;
   top:50%;
   left:50%;
@@ -23,7 +23,6 @@ const ModalCardMain = styled.section`
   justify-content: center;
   align-items: center;
   padding: 1vw;
-  border: 5px solid black;
   border-radius: 2vh;
 `;
 

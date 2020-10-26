@@ -1,9 +1,10 @@
 :root {
   --color-primary-lighter: #FFFFFF;
   --color-primary-light: #282c34;
-  --color-secondary-dark: #20232a;
-  --font-color-primary: #FFFFFF;
-  --font-color-dark: #20232a;
+  --color-primary-dark: #20232a;
+  --color-secondary: #61dafb;
+  --font-color-primary-light: #FFFFFF;
+  --font-color-primary-dark: #20232a;
   --font-color-secondary: #61dafb; 
 }
 

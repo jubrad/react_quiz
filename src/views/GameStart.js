@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 import PlayerModal from '../components/PlayerModal';
 
 const GameStartCard = styled.main`
@@ -11,17 +10,17 @@ const GameStartCard = styled.main`
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: var(--font-color-primary);
+  color: var(--font-color-primary-light);
   `
 const GameStartButton = styled.button`
-  background-color: var(--color-secondary-dark);
+  background-color: var(--color-secondary);
   min-height: 8vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: var(--font-color-secondary);
+  color: var(--font-color-primary-dark);
   border-radius: 2vh;
 `
 const PlayerModalForm = styled.form`
@@ -32,35 +31,35 @@ const PlayerModalForm = styled.form`
   transform: translate(-50%,-50%);
   padding: 1vw;
   border-radius: 10px;
-  background-color: var(--color-primary-lighter);
+  background-color: var(--color-primary-dark);
   min-height: 10vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: var(--font-color-secondary);
+  color: var(--font-color-primary-light);
 `
-const ModalPlayerInput = styled.input`
-  background-color: var(--color-secondary-dark);
+const PlayerModalInput = styled.input`
+  background-color: var(--color-primary-lighter);
   min-height: 8vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: var(--font-color-secondary);
+  color: var(--font-color-primary-dark);
   border-radius: 2vh;
 `
 const PlayerModalButton = styled.button`
-  background-color: var(--color-secondary-dark);
+  background-color: var(--color-primary-lighter);
   min-height: 8vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: var(--font-color-secondary);
+  color: var(--font-color-primary-dark);
   border-radius: 2vh;
 `
 class GameStart extends Component {
@@ -86,9 +85,12 @@ class GameStart extends Component {
     e.preventDefault()
     localStorage.setItem('playerName', this.state.playerName)
     this.hideModal()
-    this.props.history.push('/question.js')
+    this.props.history.push('/question')
   }
 
+  // This function inside any event listener because it takes the event as a parameter
+  // When you trigger the event, your function gets executed
+  // I still need to understand what the target do and come from exactly
   handleChange = (e) => {
     this.setState({playerName: e.target.value})
   }
@@ -108,12 +110,10 @@ class GameStart extends Component {
             <label>
               Name of the Player
               <br/>
-              <ModalPlayerInput type="text" name="playerName" placeholder="John Doe" onChange={this.handleChange} value={this.state.playerName}/>
+              <PlayerModalInput type="text" name="playerName" placeholder="John Doe" onChange={this.handleChange} value={this.state.playerName}/>
             </label>
             <br/>
-            <Link to='/question'>
               <PlayerModalButton type="submit">Submit and start playing!</PlayerModalButton>
-            </Link>
           </PlayerModalForm>
         </PlayerModal>
 

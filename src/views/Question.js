@@ -2,34 +2,140 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import dbQuestions from '../db.json';
 
-const QuestionsCard = styled.div`
-  border: 1px solid black;
-  margin: 10px auto;
-  padding: 5px; 
+const QuestionCard = styled.div`
+  position:fixed;
+  width: 50vw;
+  top:50%;
+  left:50%;
+  transform: translate(-50%,-50%);
+  padding: 1vw;
+  margin: 2vw;
+  border-radius: 10px;
+  background-color: var(--color-primary-dark);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: var(--font-color-primary-light);
 `
-const QuestionsCardHeader = styled.div`
-  border: 1px solid black;
-  margin: 10px auto;
-  padding: 5px; 
+const QuestionCardInfo = styled.div`
+  background-color: var(--color-primary-dark);
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  font-size: calc(10px + 2vmin);
+  color: var(--font-color-secondary);
+  border-radius: 2vh;
 `
+const QuestionCardHeader = styled.div`
+  background-color: var(--color-secondary);
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: var(--font-color-primary-dark);
+  border-radius: 2vh;
+`
+const QuestionCardBody = styled.div`
+  background-color: var(--color-primary-lighter);
+  width: 100%;
+  margin-top: 2vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: var(--font-color-primary-dark);
+  border-radius: 2vh;
+`
+const AnswersForm = styled.form`
+  padding: 2vh;
+  /* display: flex;
+  align-items: center;
+  justify-content: right;
+  font-size: calc(10px + 2vmin);
+  color: var(--font-color-primary-dark); */
+`
+const SingleAnswer = styled.div`
+  background-color: var(--color-primary-dark);
+  color: var(--font-color-primary-light);
+  width: 48vw;
+  border-radius: 3vh;
+  font-size: calc(10px + 2vmin);
+  display: flex;
+  justify-content: left;
+`
+const SubmitAnswerButton = styled.button`
+  background-color: var(--color-primary-dark);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: var(--font-color-primary-light);
+  border-radius: 2vh;
+`
+
 class Question extends Component {
   constructor(props) {
     super(props)
-
+    
     this.state = {
       questions: [],
     }
-
   }
 
   render() {
     return (
-      <QuestionsCard>
-        <QuestionsCardHeader>
-          <h2>First Question</h2>
-        </QuestionsCardHeader>
-        {JSON.stringify(dbQuestions)}
-      </QuestionsCard>
+      <QuestionCard>
+        <QuestionCardInfo>
+          <p>Question {JSON.stringify(dbQuestions[0].id)}</p>
+          <p>{localStorage.getItem('playerName') || 'Player'}</p>
+        </QuestionCardInfo>
+
+        <QuestionCardHeader>
+          <p>
+            {JSON.stringify(dbQuestions[0].question)};
+          </p>
+        </QuestionCardHeader>
+
+        <QuestionCardBody>
+          <AnswersForm>
+            <SingleAnswer>
+              <label for="answer">
+                <input type="radio" id="answer" name="answer1" value="answer1"/>
+                Flower
+              </label>
+            </SingleAnswer>
+            <br/>
+            <SingleAnswer>
+              <label for="answer">
+                <input type="radio" id="answer" name="answer1" value="answer1"/>
+                Flower
+              </label>
+            </SingleAnswer>
+            <br/>
+            <SingleAnswer>
+              <label for="answer">
+                <input type="radio" id="answer" name="answer1" value="answer1"/>
+                Flower
+              </label>
+            </SingleAnswer>
+            <br/>
+            <SingleAnswer>
+              <label for="answer">
+                <input type="radio" id="answer" name="answer1" value="answer1"/>
+                Flower
+              </label>
+            </SingleAnswer>
+            <br/>
+            <SubmitAnswerButton type="submit">Submit Answer</SubmitAnswerButton>
+          </AnswersForm>
+        </QuestionCardBody>
+
+      </QuestionCard>
     )
   }
 }

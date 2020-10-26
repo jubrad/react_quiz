@@ -8,14 +8,14 @@ const AppCard = styled.div`
   text-align: center;
 `
 const AppCardHeader = styled.header`
-  background-color: var(--color-secondary-dark);
+  background-color: var(--color-primary-dark);
   min-height: 10vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: var(--font-color-primary);
+  color: var(--font-color-primary-light);
 `
 function App() {
   return (

@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const GameEndCard = styled.main`
   background-color: var(--color-primary-light);
@@ -32,9 +33,11 @@ function GameEnd() {
       <h1>
         :)
       </h1>
-      <GameEndButton type="button">
-        Play Again!
-      </GameEndButton>
+      <Link to="/">
+        <GameEndButton type="button">
+          Play Again!
+        </GameEndButton>
+      </Link>
 
     </GameEndCard>
   )

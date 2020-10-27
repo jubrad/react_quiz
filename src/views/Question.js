@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import dbQuestions from '../db.json';
+import CorrectAnswerModal from '../components/CorrectAnswerModal';
 
 const QuestionCard = styled.div`
   position:fixed;
@@ -37,10 +38,9 @@ const QuestionCardHeader = styled.div`
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: var(--font-color-primary-dark);
-  border-radius: 2vh;
 `
 const QuestionCardBody = styled.div`
-  background-color: var(--color-primary-lighter);
+  background-color: var(--color-secondary);
   width: 100%;
   margin-top: 2vh;
   display: flex;
@@ -52,17 +52,11 @@ const QuestionCardBody = styled.div`
 `
 const AnswersForm = styled.form`
   padding: 2vh;
-  /* display: flex;
-  align-items: center;
-  justify-content: right;
-  font-size: calc(10px + 2vmin);
-  color: var(--font-color-primary-dark); */
 `
 const SingleAnswer = styled.div`
   background-color: var(--color-primary-dark);
   color: var(--font-color-primary-light);
   width: 48vw;
-  border-radius: 3vh;
   font-size: calc(10px + 2vmin);
   display: flex;
   justify-content: left;
@@ -75,6 +69,16 @@ const SubmitAnswerButton = styled.button`
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: var(--font-color-primary-light);
+`
+const CorrectAnswerModalButton = styled.button`
+  background-color: var(--color-primary-lighter);
+  min-height: 8vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: var(--font-color-primary-dark);
   border-radius: 2vh;
 `
 
@@ -84,7 +88,32 @@ class Question extends Component {
     
     this.state = {
       questions: [],
+      playerName: '',
+      loggedIn: false,
+      show: false
     }
+  }
+
+  showModal = () => {
+    this.setState({ show: true });
+  };
+
+  hideModal = () => {
+    this.setState({ show: false });
+  };
+
+  handleSubmit = (e) => {
+    e.preventDefault()
+    localStorage.setItem('playerName', this.state.playerName)
+    this.hideModal()
+    this.props.history.push('/questions')
+  }
+
+  // This function inside any event listener because it takes the event as a parameter
+  // When you trigger the event, your function gets executed
+  // I still need to understand what the target do and come from exactly
+  handleChange = (e) => {
+    this.setState({playerName: e.target.value})
   }
 
   render() {
@@ -131,9 +160,18 @@ class Question extends Component {
               </label>
             </SingleAnswer>
             <br/>
-            <SubmitAnswerButton type="submit">Submit Answer</SubmitAnswerButton>
+            <SubmitAnswerButton type="button" onClick={this.showModal}>
+              Submit Answer
+            </SubmitAnswerButton>
           </AnswersForm>
         </QuestionCardBody>
+
+        <CorrectAnswerModal show={this.state.show} handleClose={this.hideModal}>
+            <h2>
+              Congrats, you've got the correct answer!
+            </h2>
+          <CorrectAnswerModalButton type="submit">Next Question</CorrectAnswerModalButton>
+        </CorrectAnswerModal>
 
       </QuestionCard>
     )

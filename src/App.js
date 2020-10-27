@@ -2,10 +2,15 @@ import React from 'react';
 import styled from 'styled-components';
 import { BrowserRouter, Route } from 'react-router-dom';
 import GameStart from './views/GameStart';
+import PlayerModal from './components/PlayerModal';
 import Question from './views/Question';
+import CorrectAnswerModal from './components/CorrectAnswerModal';
+import WrongAnswerModal from './components/WrongAnswerModal';
+import GameEnd from './views/GameEnd';
 
 const AppCard = styled.div`
   text-align: center;
+  background-color: var(--color-primary-light);
 `
 const AppCardHeader = styled.header`
   background-color: var(--color-primary-dark);
@@ -26,7 +31,11 @@ function App() {
 
       <BrowserRouter>
           <Route path="/" exact component={GameStart} />
+          <Route path="/playermodal" component={PlayerModal} />
           <Route path="/question" component={Question} />
+          <Route path="/wronganswer" component={WrongAnswerModal} />
+          <Route path="/correctanswer" component={CorrectAnswerModal} />
+          <Route path="/gameend" component={GameEnd} />
       </BrowserRouter>
     </AppCard>
   );

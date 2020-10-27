@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import dbQuestions from '../db.json';
 import CorrectAnswerModal from '../components/CorrectAnswerModal';
+import WrongAnswerModal from '../components/WrongAnswerModal';
+
 
 const QuestionCard = styled.div`
   position:fixed;
@@ -71,6 +74,17 @@ const SubmitAnswerButton = styled.button`
   color: var(--font-color-primary-light);
 `
 const CorrectAnswerModalButton = styled.button`
+  background-color: var(--color-primary-lighter);
+  min-height: 8vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: var(--font-color-primary-dark);
+  border-radius: 2vh;
+`
+const WrongAnswerModalButton = styled.button`
   background-color: var(--color-primary-lighter);
   min-height: 8vh;
   display: flex;
@@ -167,11 +181,25 @@ class Question extends Component {
         </QuestionCardBody>
 
         <CorrectAnswerModal show={this.state.show} handleClose={this.hideModal}>
-            <h2>
-              Congrats, you've got the correct answer!
-            </h2>
-          <CorrectAnswerModalButton type="submit">Next Question</CorrectAnswerModalButton>
+          <h2>
+            Congrats, you've got the correct answer!
+          </h2>
+          <CorrectAnswerModalButton type="submit">
+            Next Question
+          </CorrectAnswerModalButton>
         </CorrectAnswerModal>
+
+        <WrongAnswerModal show={this.state.show} handleClose={this.hideModal}>
+            <h2>
+              Sorry, you didn't get it right this time!
+            </h2>
+          <WrongAnswerModalButton type="submit">
+            Quit Playing
+          </WrongAnswerModalButton>
+          <WrongAnswerModalButton type="submit">
+            Restart the Game
+          </WrongAnswerModalButton>
+        </WrongAnswerModal>
 
       </QuestionCard>
     )

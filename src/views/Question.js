@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 import dbQuestions from '../db.json';
 import CorrectAnswerModal from '../components/CorrectAnswerModal';
 import WrongAnswerModal from '../components/WrongAnswerModal';
-
 
 const QuestionCard = styled.div`
   position:fixed;
@@ -123,53 +121,44 @@ class Question extends Component {
     this.props.history.push('/questions')
   }
 
-  // This function inside any event listener because it takes the event as a parameter
-  // When you trigger the event, your function gets executed
-  // I still need to understand what the target do and come from exactly
   handleChange = (e) => {
     this.setState({playerName: e.target.value})
   }
 
+  
+  // handleShuffle = (dbQuestions) => {
+  //   const shuffledQuestions = [];
+  //   let index;
+  //   while(shuffledQuestions.length < dbQuestions.length) {
+  //     index = Math.floor(Math.random() * dbQuestions.length);
+  //     if(!shuffledQuestions.includes(dbQuestions[index])) {
+  //       this.setState({questions: shuffledQuestions.push(dbQuestions[index])})
+  //     } 
+  //   }
+  // }
+  handleRenderQuestion = (e) => {
+    this.setState({questions: [...dbQuestions]})
+  }
+  
   render() {
     return (
       <QuestionCard>
         <QuestionCardInfo>
-          <p>Question {JSON.stringify(dbQuestions[0].id)}</p>
+          <p>Question {dbQuestions[0].id}</p>
           <p>{localStorage.getItem('playerName') || 'Player'}</p>
         </QuestionCardInfo>
 
         <QuestionCardHeader>
           <p>
-            {JSON.stringify(dbQuestions[0].question)};
+            {this.state.questions}
           </p>
         </QuestionCardHeader>
 
         <QuestionCardBody>
           <AnswersForm>
             <SingleAnswer>
-              <label for="answer">
-                <input type="radio" id="answer" name="answer1" value="answer1"/>
-                Flower
-              </label>
-            </SingleAnswer>
-            <br/>
-            <SingleAnswer>
-              <label for="answer">
-                <input type="radio" id="answer" name="answer1" value="answer1"/>
-                Flower
-              </label>
-            </SingleAnswer>
-            <br/>
-            <SingleAnswer>
-              <label for="answer">
-                <input type="radio" id="answer" name="answer1" value="answer1"/>
-                Flower
-              </label>
-            </SingleAnswer>
-            <br/>
-            <SingleAnswer>
-              <label for="answer">
-                <input type="radio" id="answer" name="answer1" value="answer1"/>
+              <label htmlFor="answer">
+                <input type="radio" name="answer1" value="answer1"/>
                 Flower
               </label>
             </SingleAnswer>

@@ -62,11 +62,13 @@ const PlayerModalButton = styled.button`
   color: var(--font-color-primary-dark);
   border-radius: 2vh;
 `
+
 class GameStart extends Component {
   constructor (props) {
     super(props)
 
     this.state = {
+      questions: [],
       playerName: '',
       loggedIn: false,
       show: false
@@ -88,9 +90,6 @@ class GameStart extends Component {
     this.props.history.push('/question')
   }
 
-  // This function inside any event listener because it takes the event as a parameter
-  // When you trigger the event, your function gets executed
-  // I still need to understand what the target do and come from exactly
   handleChange = (e) => {
     this.setState({playerName: e.target.value})
   }

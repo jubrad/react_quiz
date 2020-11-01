@@ -94,45 +94,42 @@ const WrongAnswerModalButton = styled.button`
   border-radius: 2vh;
   `
 
-const shuffled = (dbQuestions) => {
-  const shuffledArr = [];
-  let index;
-  while(shuffledArr.length < dbQuestions.length) {
-    index = Math.floor(Math.random() * dbQuestions.length);
-    if(!shuffledArr.includes(dbQuestions[index])) {
-      shuffledArr.push(dbQuestions[index])
-    } 
-  }
-  return shuffledArr
-}
 
 class Question extends Component {
   constructor(props) {
     super(props)
     
     this.state = {
-      questions: {shuffled},
+      questions: [],
       show: false
     }
   }
-
+  
   showModal = () => {
     this.setState({ show: true });
   };
-
+  
   hideModal = () => {
     this.setState({ show: false });
   };
   
-  gameStartQuestions = () => {
-
+  shuffle = (arr) => {
+    const shuffledArr = [];
+    let index;
+    while(shuffledArr.length < arr.length) {
+      index = Math.floor(Math.random() * arr.length);
+      if(!shuffledArr.includes(arr[index])) {
+        shuffledArr.push(arr[index])
+      } 
+    }
+    return shuffledArr
   }
+  
 
-  // componentDidMount() {
-  //   const gameStartQuestions = this.shuffle()
-  //   this.setState.push(gameStartQuestions)
-  //   console.log(this.state.questions);
-  // }
+  componentDidMount() {
+    const gameStartQuestions = this.shuffle(dbQuestions)
+    this.setState({questions: {...gameStartQuestions}})
+  }
     
   render() {
     
@@ -144,28 +141,26 @@ class Question extends Component {
 
         <QuestionCardHeader>
           <p>
-            {JSON.stringify(this.state.questions)};
+            {
+              JSON.stringify(this.state.questions[0])
+            }
           </p>
         </QuestionCardHeader>
       
-                <QuestionCardBody>
-                  <AnswersForm>
-                    <SingleAnswer>
-                      <label htmlFor="answer">
-                        <input type="radio" name="answer" value="answer"/>
-                        {this.state.questions.answer}
-                      </label>
-                    </SingleAnswer>
-                    <br/>
-                    <SubmitAnswerButton type="button" onClick={this.showModal}>
-                      Submit Answer
-                    </SubmitAnswerButton>
-                  </AnswersForm>
-                </QuestionCardBody>
-              )
-            }
-          )
-        }
+        <QuestionCardBody>
+          <AnswersForm>
+            <SingleAnswer>
+              <label htmlFor="answer">
+                <input type="radio" name="answer" value="answer"/>
+                {this.state.questions.answer}
+              </label>
+            </SingleAnswer>
+            <br/>
+            <SubmitAnswerButton type="button" onClick={this.showModal}>
+              Submit Answer
+            </SubmitAnswerButton>
+          </AnswersForm>
+        </QuestionCardBody>
 
       <CorrectAnswerModal show={this.state.show} handleClose={this.hideModal}>
         <h2>

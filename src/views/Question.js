@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import dbQuestions from '../db.json';
 import CorrectAnswerModal from '../components/CorrectAnswerModal';
 import WrongAnswerModal from '../components/WrongAnswerModal';
+import dbQuestions from '../db.json';
 
 const QuestionCard = styled.div`
   position:fixed;
@@ -92,16 +92,26 @@ const WrongAnswerModalButton = styled.button`
   font-size: calc(10px + 2vmin);
   color: var(--font-color-primary-dark);
   border-radius: 2vh;
-`
+  `
+
+const shuffled = (dbQuestions) => {
+  const shuffledArr = [];
+  let index;
+  while(shuffledArr.length < dbQuestions.length) {
+    index = Math.floor(Math.random() * dbQuestions.length);
+    if(!shuffledArr.includes(dbQuestions[index])) {
+      shuffledArr.push(dbQuestions[index])
+    } 
+  }
+  return shuffledArr
+}
 
 class Question extends Component {
   constructor(props) {
     super(props)
     
     this.state = {
-      questions: [],
-      playerName: '',
-      loggedIn: false,
+      questions: {shuffled},
       show: false
     }
   }
@@ -113,84 +123,72 @@ class Question extends Component {
   hideModal = () => {
     this.setState({ show: false });
   };
-
-  handleSubmit = (e) => {
-    e.preventDefault()
-    localStorage.setItem('playerName', this.state.playerName)
-    this.hideModal()
-    this.props.history.push('/questions')
-  }
-
-  handleChange = (e) => {
-    this.setState({playerName: e.target.value})
-  }
-
   
-  // handleShuffle = (dbQuestions) => {
-  //   const shuffledQuestions = [];
-  //   let index;
-  //   while(shuffledQuestions.length < dbQuestions.length) {
-  //     index = Math.floor(Math.random() * dbQuestions.length);
-  //     if(!shuffledQuestions.includes(dbQuestions[index])) {
-  //       this.setState({questions: shuffledQuestions.push(dbQuestions[index])})
-  //     } 
-  //   }
+  gameStartQuestions = () => {
+
+  }
+
+  // componentDidMount() {
+  //   const gameStartQuestions = this.shuffle()
+  //   this.setState.push(gameStartQuestions)
+  //   console.log(this.state.questions);
   // }
-  handleRenderQuestion = (e) => {
-    this.setState({questions: [...dbQuestions]})
-  }
-  
+    
   render() {
+    
     return (
       <QuestionCard>
         <QuestionCardInfo>
-          <p>Question {dbQuestions[0].id}</p>
           <p>{localStorage.getItem('playerName') || 'Player'}</p>
         </QuestionCardInfo>
 
         <QuestionCardHeader>
           <p>
-            {this.state.questions}
+            {JSON.stringify(this.state.questions)};
           </p>
         </QuestionCardHeader>
+      
+                <QuestionCardBody>
+                  <AnswersForm>
+                    <SingleAnswer>
+                      <label htmlFor="answer">
+                        <input type="radio" name="answer" value="answer"/>
+                        {this.state.questions.answer}
+                      </label>
+                    </SingleAnswer>
+                    <br/>
+                    <SubmitAnswerButton type="button" onClick={this.showModal}>
+                      Submit Answer
+                    </SubmitAnswerButton>
+                  </AnswersForm>
+                </QuestionCardBody>
+              )
+            }
+          )
+        }
 
-        <QuestionCardBody>
-          <AnswersForm>
-            <SingleAnswer>
-              <label htmlFor="answer">
-                <input type="radio" name="answer1" value="answer1"/>
-                Flower
-              </label>
-            </SingleAnswer>
-            <br/>
-            <SubmitAnswerButton type="button" onClick={this.showModal}>
-              Submit Answer
-            </SubmitAnswerButton>
-          </AnswersForm>
-        </QuestionCardBody>
+      <CorrectAnswerModal show={this.state.show} handleClose={this.hideModal}>
+        <h2>
+          Congrats, you've got the correct answer!
+        </h2>
+        <CorrectAnswerModalButton type="submit">
+          Next Question
+        </CorrectAnswerModalButton>
+      </CorrectAnswerModal>
 
-        <CorrectAnswerModal show={this.state.show} handleClose={this.hideModal}>
+      <WrongAnswerModal show={this.state.show} handleClose={this.hideModal}>
           <h2>
-            Congrats, you've got the correct answer!
+            Sorry, you didn't get it right this time!
           </h2>
-          <CorrectAnswerModalButton type="submit">
-            Next Question
-          </CorrectAnswerModalButton>
-        </CorrectAnswerModal>
+        <WrongAnswerModalButton type="submit">
+          Quit Playing
+        </WrongAnswerModalButton>
+        <WrongAnswerModalButton type="submit">
+          Restart the Game
+        </WrongAnswerModalButton>
+      </WrongAnswerModal>
 
-        <WrongAnswerModal show={this.state.show} handleClose={this.hideModal}>
-            <h2>
-              Sorry, you didn't get it right this time!
-            </h2>
-          <WrongAnswerModalButton type="submit">
-            Quit Playing
-          </WrongAnswerModalButton>
-          <WrongAnswerModalButton type="submit">
-            Restart the Game
-          </WrongAnswerModalButton>
-        </WrongAnswerModal>
-
-      </QuestionCard>
+    </QuestionCard>
     )
   }
 }

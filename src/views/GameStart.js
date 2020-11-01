@@ -68,7 +68,6 @@ class GameStart extends Component {
     super(props)
 
     this.state = {
-      questions: [],
       playerName: '',
       loggedIn: false,
       show: false
@@ -83,6 +82,10 @@ class GameStart extends Component {
     this.setState({ show: false });
   };
 
+  handleChange = (e) => {
+    this.setState({playerName: e.target.value})
+  }
+
   handleSubmit = (e) => {
     e.preventDefault()
     localStorage.setItem('playerName', this.state.playerName)
@@ -90,9 +93,6 @@ class GameStart extends Component {
     this.props.history.push('/question')
   }
 
-  handleChange = (e) => {
-    this.setState({playerName: e.target.value})
-  }
 
   render() {
     return (

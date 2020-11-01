@@ -132,12 +132,6 @@ class Question extends Component {
 
   }
 
-  toggleAnswer = (ansName) => {
-    let updateQs = this.state.questions
-    updateQs[0].answers['ansName'] = !updateQs[0].answers['ansName']
-    this.setState({question: updateQs})
-  }
-
   restart = () => {
    this.setState({
      questions: this.shuffle(dbQuestions),
@@ -179,7 +173,7 @@ class Question extends Component {
   displayOption = (q, option) => {
     return (
         <SingleAnswer>
-        <input type="checkbox" name={q.id}  value={option} onClick={() => this.setState({answer: option})}/> {option}
+        <input type="radio" name={q.id}  value={option} onClick={() => this.setState({answer: option})}/> {option}
         </SingleAnswer>
     )
   }

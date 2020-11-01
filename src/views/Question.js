@@ -104,7 +104,8 @@ class Question extends Component {
     
     this.state = {
       questions: this.shuffle(dbQuestions),
-      correctCount: 0
+      correctCount: 0,
+      formRef: React.createRef()
     }
     
   }
@@ -144,6 +145,7 @@ class Question extends Component {
      answer: null
     })
    this.hideIncorrect()
+   this.state.formRef.current.reset()
   }
 
   quit = () => {
@@ -156,6 +158,7 @@ class Question extends Component {
        answer: null
      })
      this.hideCorrect()
+     this.state.formRef.current.reset()
   }
 
   shuffle = (ar) => {
@@ -176,17 +179,17 @@ class Question extends Component {
   displayOption = (q, option) => {
     return (
         <SingleAnswer>
-        <input type="radio" name={q.id}  value={option} onClick={() => this.setState({answer: option})}/> {option}
+        <input type="checkbox" name={q.id}  value={option} onClick={() => this.setState({answer: option})}/> {option}
         </SingleAnswer>
     )
   }
 
   questionOptions = (question) => {
     return (
-          <AnswersForm>
+          <AnswersForm ref={this.state.formRef}>
               <label htmlFor="answer">
                 {
-                  Object.entries(question.answer).map( (obj)=> { console.log(obj); return this.displayOption(question, obj[0]) })
+                  Object.entries(question.answer).map( (obj)=> {return this.displayOption(question, obj[0]) })
                 }
               </label>
             <br/>

@@ -40,6 +40,7 @@ const QuestionCardHeader = styled.div`
   font-size: calc(10px + 2vmin);
   color: var(--font-color-primary-dark);
 `
+
 const QuestionCardBody = styled.div`
   background-color: var(--color-secondary);
   width: 100%;
@@ -54,6 +55,7 @@ const QuestionCardBody = styled.div`
 const AnswersForm = styled.form`
   padding: 2vh;
 `
+
 const SingleAnswer = styled.div`
   background-color: var(--color-primary-dark);
   color: var(--font-color-primary-light);
@@ -96,43 +98,106 @@ const WrongAnswerModalButton = styled.button`
 
 
 class Question extends Component {
-  constructor(props) {
+
+ constructor(props) {
     super(props)
     
     this.state = {
-      questions: [],
-      show: false
+      questions: this.shuffle(dbQuestions),
+      correctCount: 0
     }
+    
   }
   
   showModal = () => {
     this.setState({ show: true });
   };
   
-  hideModal = () => {
-    this.setState({ show: false });
+  hideCorrect = () => {
+    this.setState({ correct: false });
   };
-  
-  shuffle = (arr) => {
-    const shuffledArr = [];
-    let index;
-    while(shuffledArr.length < arr.length) {
-      index = Math.floor(Math.random() * arr.length);
-      if(!shuffledArr.includes(arr[index])) {
-        shuffledArr.push(arr[index])
-      } 
-    }
-    return shuffledArr
-  }
-  
 
-  componentDidMount() {
-    const gameStartQuestions = this.shuffle(dbQuestions)
-    this.setState({questions: {...gameStartQuestions}})
+  hideIncorrect = () => {
+    this.setState({ incorrect : false });
+  };
+
+  checkAnswer = (e) => {
+    e.preventDefault();
+    if (this.state.answer && this.state.questions[0].answer[this.state.answer]) {
+      this.setState({correct: true, correctCount: this.state.correctCount+1})
+    } else {
+      this.setState({incorrect: true})
+    }
+
   }
-    
+
+  toggleAnswer = (ansName) => {
+    let updateQs = this.state.questions
+    updateQs[0].answers['ansName'] = !updateQs[0].answers['ansName']
+    this.setState({question: updateQs})
+  }
+
+  restart = () => {
+   this.setState({
+     questions: this.shuffle(dbQuestions),
+     correctCount: 0,
+     answer: null
+    })
+   this.hideIncorrect()
+  }
+
+  quit = () => {
+    this.props.history.push('/')
+  }
+
+  nextQuestion = () => {
+     this.setState({ 
+       questions: this.state.questions.slice(1,this.state.questions.length),
+       answer: null
+     })
+     this.hideCorrect()
+  }
+
+  shuffle = (ar) => {
+    //fisher-yates shuffle
+    let shuffledAr = [...ar];
+    let i = ar.length -1
+    while(i > 0) {
+      let swap = Math.floor(Math.random() * i);
+      let tmp = shuffledAr[swap]
+      shuffledAr[swap] = shuffledAr[i]
+      shuffledAr[i] = tmp
+      i--
+    }
+    return shuffledAr
+  }
+
+
+  displayOption = (q, option) => {
+    return (
+        <SingleAnswer>
+        <input type="radio" name={q.id}  value={option} onClick={() => this.setState({answer: option})}/> {option}
+        </SingleAnswer>
+    )
+  }
+
+  questionOptions = (question) => {
+    return (
+          <AnswersForm>
+              <label htmlFor="answer">
+                {
+                  Object.entries(question.answer).map( (obj)=> { console.log(obj); return this.displayOption(question, obj[0]) })
+                }
+              </label>
+            <br/>
+            <SubmitAnswerButton type="button" onClick={this.checkAnswer}>
+              Submit Answer
+            </SubmitAnswerButton>
+          </AnswersForm>
+     )
+  }
+
   render() {
-    
     return (
       <QuestionCard>
         <QuestionCardInfo>
@@ -140,49 +205,35 @@ class Question extends Component {
         </QuestionCardInfo>
 
         <QuestionCardHeader>
-          <p>
-            {
-              JSON.stringify(this.state.questions[0])
-            }
-          </p>
+          <p> {this.state.questions[0].question} </p>
         </QuestionCardHeader>
       
         <QuestionCardBody>
-          <AnswersForm>
-            <SingleAnswer>
-              <label htmlFor="answer">
-                <input type="radio" name="answer" value="answer"/>
-                {this.state.questions.answer}
-              </label>
-            </SingleAnswer>
-            <br/>
-            <SubmitAnswerButton type="button" onClick={this.showModal}>
-              Submit Answer
-            </SubmitAnswerButton>
-          </AnswersForm>
+          { this.questionOptions(this.state.questions[0]) }
         </QuestionCardBody>
 
-      <CorrectAnswerModal show={this.state.show} handleClose={this.hideModal}>
+      <CorrectAnswerModal show={this.state.correct} handleClose={this.hideIncorrect}>
         <h2>
           Congrats, you've got the correct answer!
         </h2>
-        <CorrectAnswerModalButton type="submit">
+        <CorrectAnswerModalButton type="submit" onClick={this.nextQuestion}>
           Next Question
         </CorrectAnswerModalButton>
       </CorrectAnswerModal>
 
-      <WrongAnswerModal show={this.state.show} handleClose={this.hideModal}>
+      <WrongAnswerModal show={this.state.incorrect} handleClose={this.hideIncorrect}>
           <h2>
             Sorry, you didn't get it right this time!
           </h2>
-        <WrongAnswerModalButton type="submit">
+        <WrongAnswerModalButton type="submit" onClick={this.quit}>
           Quit Playing
         </WrongAnswerModalButton>
-        <WrongAnswerModalButton type="submit">
+        <WrongAnswerModalButton type="submit" onClick={this.restart}>
           Restart the Game
         </WrongAnswerModalButton>
       </WrongAnswerModal>
 
+    <p> You've answer {this.state.correctCount} correct so far</p>
     </QuestionCard>
     )
   }
